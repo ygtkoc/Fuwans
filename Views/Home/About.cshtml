@@ -1,0 +1,118 @@
+@model AboutPageViewModel
+@{
+    ViewData["Title"] = "Hakkimizda";
+}
+
+<div class="site-shell">
+    <header class="topbar">
+        <div class="topbar__inner section-container">
+            <nav class="topbar__nav" aria-label="Ana menu">
+                <a class="topbar__link" asp-controller="Products" asp-action="Index">Urunler</a>
+                <a class="topbar__link topbar__link--active" asp-controller="Home" asp-action="About">Hakkimizda</a>
+                <a class="topbar__link" asp-controller="Home" asp-action="Index" asp-fragment="bulten">Iletisim</a>
+            </nav>
+            <a class="topbar__brand" asp-controller="Home" asp-action="Index">FUWANS</a>
+            <div class="topbar__actions" aria-label="Hizli islemler">
+                <button class="icon-button" type="button" aria-label="Hesabim">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <button class="icon-button" type="button" aria-label="Favoriler">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+                <button class="icon-button" type="button" aria-label="Sepet">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container about-page">
+        <section class="about-vision">
+            <div class="about-vision__grid">
+                <div class="about-vision__content">
+                    <span class="eyebrow eyebrow--dark">@Model.VisionEyebrow</span>
+                    <h1>@Model.VisionTitle</h1>
+                    <p>@Model.VisionDescription</p>
+                </div>
+                <div class="about-vision__image">
+                    <img src="@Model.VisionImageUrl" alt="@Model.VisionTitle" />
+                </div>
+            </div>
+        </section>
+
+        <section class="about-heritage">
+            <div class="about-heritage__intro">
+                <h2>@Model.HeritageTitle</h2>
+                <p>@Model.HeritageDescription</p>
+            </div>
+            <div class="about-heritage__grid">
+                <div class="about-heritage__primary">
+                    <img src="@Model.HeritageImagePrimaryUrl" alt="@Model.HeritageTitle" />
+                    <span>@Model.HeritageBadge</span>
+                </div>
+                <div class="about-heritage__secondary">
+                    <div class="about-heritage__secondary-image">
+                        <img src="@Model.HeritageImageSecondaryUrl" alt="@Model.HeritageFeatureTitle" />
+                    </div>
+                    <div class="about-heritage__feature">
+                        <h3>@Model.HeritageFeatureTitle</h3>
+                        <p>@Model.HeritageFeatureDescription</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-process">
+            <div class="about-process__grid">
+                <div class="about-process__card">
+                    <span>@Model.ProcessEyebrow</span>
+                    <h4>@Model.ProcessTitle</h4>
+                    <p>@Model.ProcessDescription</p>
+                </div>
+                <div class="about-process__wide-image">
+                    <img src="@Model.ProcessImagePrimaryUrl" alt="@Model.ProcessTitle" />
+                </div>
+                <div class="about-process__detail-image">
+                    <img src="@Model.ProcessImageSecondaryUrl" alt="@Model.ProcessTitle" />
+                </div>
+                <div class="about-process__stat">
+                    <strong>@Model.ProcessStatValue</strong>
+                    <p>@Model.ProcessStatLabel</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-quote">
+            <h2>@Model.NarrativeTitle</h2>
+            <p class="about-quote__text">@Model.NarrativeQuote</p>
+            <div class="about-quote__divider"></div>
+            <p class="about-quote__author">@Model.NarrativeAuthor</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="section-container footer__grid footer__grid--catalog">
+            <div>
+                <div class="footer__brand">FUWANS</div>
+                <p class="footer__summary">(c) 2026 FUWANS. MODERN MIRASI YENIDEN TANIMLIYORUZ.</p>
+            </div>
+            <div class="footer__links">
+                <div>
+                    <a href="#">Surdurulebilirlik</a>
+                    <a asp-controller="Home" asp-action="Privacy">Yasal</a>
+                </div>
+                <div>
+                    <a href="#">Teslimat</a>
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="bulten">Bulten</a>
+                </div>
+            </div>
+            <div class="footer__social">
+                <span>Yolculugu takip edin</span>
+                <div class="footer__social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Gunce</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

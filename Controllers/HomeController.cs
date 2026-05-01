@@ -9,10 +9,12 @@ namespace Fuwans.Controllers;
 public class HomeController(
     ILogger<HomeController> logger,
     IHomePageService homePageService,
+    IAboutPageService aboutPageService,
     INewsletterService newsletterService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
     private readonly IHomePageService _homePageService = homePageService;
+    private readonly IAboutPageService _aboutPageService = aboutPageService;
     private readonly INewsletterService _newsletterService = newsletterService;
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
@@ -24,6 +26,12 @@ public class HomeController(
     public IActionResult Privacy()
     {
         return View();
+    }
+
+    public async Task<IActionResult> About(CancellationToken cancellationToken)
+    {
+        var model = await _aboutPageService.GetAboutPageAsync(cancellationToken);
+        return View(model);
     }
 
     [HttpPost]

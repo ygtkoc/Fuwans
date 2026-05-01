@@ -16,6 +16,35 @@ public class DatabaseInitializer(AppDbContext dbContext)
     private async Task EnsureSchemaUpdatesAsync()
     {
         await dbContext.Database.ExecuteSqlRawAsync("""
+            IF OBJECT_ID('AboutPageContents', 'U') IS NULL
+            BEGIN
+                CREATE TABLE AboutPageContents (
+                    Id int NOT NULL IDENTITY,
+                    VisionEyebrow nvarchar(max) NOT NULL,
+                    VisionTitle nvarchar(max) NOT NULL,
+                    VisionDescription nvarchar(max) NOT NULL,
+                    VisionImageUrl nvarchar(max) NOT NULL,
+                    HeritageTitle nvarchar(max) NOT NULL,
+                    HeritageDescription nvarchar(max) NOT NULL,
+                    HeritageImagePrimaryUrl nvarchar(max) NOT NULL,
+                    HeritageImageSecondaryUrl nvarchar(max) NOT NULL,
+                    HeritageBadge nvarchar(max) NOT NULL,
+                    HeritageFeatureTitle nvarchar(max) NOT NULL,
+                    HeritageFeatureDescription nvarchar(max) NOT NULL,
+                    ProcessEyebrow nvarchar(max) NOT NULL,
+                    ProcessTitle nvarchar(max) NOT NULL,
+                    ProcessDescription nvarchar(max) NOT NULL,
+                    ProcessImagePrimaryUrl nvarchar(max) NOT NULL,
+                    ProcessImageSecondaryUrl nvarchar(max) NOT NULL,
+                    ProcessStatValue nvarchar(max) NOT NULL,
+                    ProcessStatLabel nvarchar(max) NOT NULL,
+                    NarrativeTitle nvarchar(max) NOT NULL,
+                    NarrativeQuote nvarchar(max) NOT NULL,
+                    NarrativeAuthor nvarchar(max) NOT NULL,
+                    CreatedAtUtc datetime2 NOT NULL,
+                    CONSTRAINT PK_AboutPageContents PRIMARY KEY (Id)
+                );
+            END
             IF COL_LENGTH('Products', 'CollectionLabel') IS NULL
                 ALTER TABLE Products ADD CollectionLabel nvarchar(max) NOT NULL CONSTRAINT DF_Products_CollectionLabel DEFAULT '';
             IF COL_LENGTH('Products', 'SelectedColorName') IS NULL
@@ -57,6 +86,7 @@ public class DatabaseInitializer(AppDbContext dbContext)
         };
 
         await UpsertHeroAsync();
+        await UpsertAboutPageAsync();
         await UpsertFeaturesAsync();
         await UpsertBrandStoryAsync();
 
@@ -141,6 +171,41 @@ public class DatabaseInitializer(AppDbContext dbContext)
         if (hero.Id == 0)
         {
             dbContext.SiteHeroes.Add(hero);
+        }
+
+        await dbContext.SaveChangesAsync();
+    }
+
+    private async Task UpsertAboutPageAsync()
+    {
+        var page = await dbContext.AboutPageContents.OrderBy(item => item.Id).FirstOrDefaultAsync()
+            ?? new AboutPageContent();
+
+        page.VisionEyebrow = "Vizyonumuz";
+        page.VisionTitle = "Sessizligin Mimarisi";
+        page.VisionDescription = "Fuwans, olana donme arzusundan dogdu. Gulturunun yukseldigi bir cagda biz, istisnai malzemelerin ve zamansiz siluetlerin derin sessizligini secmeyi tercih ediyoruz. Amacimiz, sadece bir mekanda var olan degil, o mekanin ruhunu tanimlayan eserler uretmek.";
+        page.VisionImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAIg9PASam1-xZQockF28O-QmVIeapdCjD5HJD-mnf11qWP6kSZFYloOChOAOzQ8ibrRbnO0gGemYJ4dj6jYxn08WG5fybt92RHaZjuVUrk9xX5H6UxKDUd_PmO-sYwf2f4g3Lz0aEf82ijpr7oL3XCLVx_mMB2E40wdVEbRJlLV-mAso-EbNh2Bh3rp6kiZQK_mkZqYEjuXNIjHimdWB_TgwaTmwSy_fdCEZemWOkx1kWccrvKldZNjQy7w0YOY147a4mSnuBXldeS";
+        page.HeritageTitle = "Mirasla Kok Salan";
+        page.HeritageDescription = "Atolyemizde kusaklar boyu aktarlan zanaat anlayisi bir araya geliyor. Zaman, sabir ve tavizsiz bir dikkat isteyen eski dunya tekniklerine saygi duyuyoruz. Bu mirasi bugunun koleksiyoncusu icin yeniden yorumluyoruz.";
+        page.HeritageImagePrimaryUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuCwN8xNeO9ultPexddqoY5ooQUTx5QmwDqvgJrueBMuVh7qJ3XraZ0d6s_2akaGI5A19LbdCCLPMmq2T-thR1iPRTLQV4PpuczHu4_rvYDbKoiqbLQhx38UCLxLb_LIx5XJuedViwxCrVUgpG9xkNUpMpTG7jHEfIkhjy1T2x9N2tNBnWG7_KhLm_JOuw8_9pWlSECXfVSZOIblN5E1OCPTbmr9c5fh3U_j0gYDhA4-7sfprXUSnvMQhxb1JetbOTkRG83cLsskcz1L";
+        page.HeritageImageSecondaryUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuD7h4KomrQTfBUJblvdkxEgqtPgOI7XppXuLyrIVx6soQHBTIFiPF4klnL82ZJJaVkOs85PN0TxkWaAm5gTuo3hKh15orpGIw7Fik7sy0iEk0t8Fa1813zARVd6pjOTCtALWHXEMCsPGznACuWaIwZozNMR_O_ySRVFh5L3RT_xqR8ZLpy_VjnTJC7fRM-D15SXwxpSFJRy_4twDrjb3Eamw1Vhtd-gHP5LRialzS-wEf1z8Z-5XQ2kcCzq1TVqQCeMP-lE89D_fJJG";
+        page.HeritageBadge = "1924'TEN BERI";
+        page.HeritageFeatureTitle = "Formun Simyasi";
+        page.HeritageFeatureDescription = "Her kivrim bilincli bir karar. Her dikis uzun omurluluk icin verilmis bir soz. Biz trendlerin pesinden gitmiyor, geometri ve doganin kalici ilkelerini izliyoruz.";
+        page.ProcessEyebrow = "Surec 01";
+        page.ProcessTitle = "Etik Tedarik";
+        page.ProcessDescription = "Yalnizca gezegene karsi sorumluluk anlayisini paylasan aile isletmesi tabakhane ve dokuma atolyeleriyle calisiyoruz.";
+        page.ProcessImagePrimaryUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBubF5QCP2PgCxRsCBwFc9s0cftA5gVG0qP3jHYzCP8UVMlYq9mTRIC-jkDAKvbaJQx7nMHvf4F7tEIDuXVWqIJwJPcfgvbt-wpLSXFChMqSYD2yUOqsYdcJCuavFYGhNz5ugWcedSZe_KmHyy8s-GULIwmXI37bIG9O52kW0PnUYCbx6ZvEmRTK9Noh48RUm8pHhEBl4J4yqM1MfxepGNuhUZhphB1iJjQGqzKgsDO0kKCP7CSp67MpT05eDB52evuuzs1XEQyhdv2";
+        page.ProcessImageSecondaryUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDN_BtXU_Q7iZwW3W5FbXUsjnTgZOxyvzootqf8R09_bzRFckeme4QvjqsjLqMuSg49wSKiHzRRpsm70WJZ31UY4RI76r5I343C3InU8JDksfgqEh4-2zopUUYjYk9CdTfVP4gc_V7x8XVEg8mzh7fnsGrI5yjUb_kt-tJGJ0HSqqFDJ0ZK8chaLbXJocN4XvqDAr6CLtG3PZlCMhN2Hy6QpgLOisrdyMtBaW8gcbvbMvsDYpumiURgU5C1hbtk5Ju9KtepgkLKAstd";
+        page.ProcessStatValue = "128";
+        page.ProcessStatLabel = "Arsiv niteligindeki her parcada ortalama elde bitirme saati";
+        page.NarrativeTitle = "Koleksiyoncuya Verilen Soz";
+        page.NarrativeQuote = "\"Luks, fazlalikla ilgili degildir. Taviz vermemekle ilgilidir.\"";
+        page.NarrativeAuthor = "Fuwans Kolektifi";
+
+        if (page.Id == 0)
+        {
+            dbContext.AboutPageContents.Add(page);
         }
 
         await dbContext.SaveChangesAsync();

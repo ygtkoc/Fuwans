@@ -6,6 +6,7 @@ namespace Fuwans.Data;
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<SiteHero> SiteHeroes => Set<SiteHero>();
+    public DbSet<AboutPageContent> AboutPageContents => Set<AboutPageContent>();
     public DbSet<StoreFeature> StoreFeatures => Set<StoreFeature>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Product> Products => Set<Product>();
