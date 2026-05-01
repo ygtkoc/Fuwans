@@ -154,6 +154,82 @@ public class CartPageViewModel
     public string TotalText { get; set; } = "$0.00";
 }
 
+public class CheckoutShippingPageViewModel
+{
+    public int CartItemCount { get; set; }
+    public string StepTitle { get; set; } = "Kargo";
+    public string EmailAddress { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string StreetAddress { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public string PostalCode { get; set; } = string.Empty;
+    public string DeliveryMethod { get; set; } = "standard";
+    public IReadOnlyList<CheckoutDeliveryOptionViewModel> DeliveryOptions { get; set; } = [];
+    public CheckoutSummaryViewModel Summary { get; set; } = new();
+}
+
+public class CheckoutPaymentPageViewModel
+{
+    public int CartItemCount { get; set; }
+    public string StepTitle { get; set; } = "Odeme";
+    public string CardholderName { get; set; } = string.Empty;
+    public string CardNumber { get; set; } = string.Empty;
+    public string ExpirationMonth { get; set; } = string.Empty;
+    public string ExpirationYear { get; set; } = string.Empty;
+    public string SecurityCode { get; set; } = string.Empty;
+    public string InstallmentText { get; set; } = "Tek cekim";
+    public CheckoutShippingPreviewViewModel ShippingPreview { get; set; } = new();
+    public CheckoutSummaryViewModel Summary { get; set; } = new();
+}
+
+public class CheckoutReviewPageViewModel
+{
+    public int CartItemCount { get; set; }
+    public string StepTitle { get; set; } = "Onay";
+    public CheckoutShippingPreviewViewModel ShippingPreview { get; set; } = new();
+    public CheckoutPaymentPreviewViewModel PaymentPreview { get; set; } = new();
+    public CheckoutSummaryViewModel Summary { get; set; } = new();
+}
+
+public class CheckoutDeliveryOptionViewModel
+{
+    public string Code { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string PriceText { get; set; } = string.Empty;
+    public bool IsSelected { get; set; }
+}
+
+public class CheckoutSummaryViewModel
+{
+    public IReadOnlyList<CartItemViewModel> Items { get; set; } = [];
+    public string PromoCode { get; set; } = string.Empty;
+    public string DeliveryTitle { get; set; } = string.Empty;
+    public string SubtotalText { get; set; } = "$0.00";
+    public string ShippingText { get; set; } = "Ucretsiz";
+    public string TaxText { get; set; } = "$0.00";
+    public string TotalText { get; set; } = "$0.00";
+}
+
+public class CheckoutShippingPreviewViewModel
+{
+    public string FullName { get; set; } = string.Empty;
+    public string EmailAddress { get; set; } = string.Empty;
+    public string StreetAddress { get; set; } = string.Empty;
+    public string CityPostalCode { get; set; } = string.Empty;
+    public string DeliveryTitle { get; set; } = string.Empty;
+    public string DeliveryDescription { get; set; } = string.Empty;
+}
+
+public class CheckoutPaymentPreviewViewModel
+{
+    public string CardholderName { get; set; } = string.Empty;
+    public string MaskedCardNumber { get; set; } = string.Empty;
+    public string ExpirationText { get; set; } = string.Empty;
+    public string InstallmentText { get; set; } = string.Empty;
+}
+
 public class CartItemViewModel
 {
     public int CartItemId { get; set; }

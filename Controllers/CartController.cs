@@ -34,7 +34,6 @@ public class CartController(ICartService cartService) : Controller
     [ValidateAntiForgeryToken]
     public IActionResult BeginCheckout()
     {
-        TempData["CheckoutMessage"] = "Odeme adimi bir sonraki asamada tamamlanacak.";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Shipping", "Checkout");
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddScoped<IHomePageService, HomePageService>();
 builder.Services.AddScoped<IAboutPageService, AboutPageService>();
 builder.Services.AddScoped<IProductCatalogService, ProductCatalogService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<INewsletterService, NewsletterService>();
 builder.Services.AddScoped<DatabaseInitializer>();
 

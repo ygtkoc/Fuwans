@@ -1,0 +1,108 @@
+@model CheckoutPaymentPageViewModel
+@{
+    ViewData["Title"] = "Odeme";
+}
+
+<div class="site-shell">
+    <header class="topbar">
+        <div class="topbar__inner section-container">
+            <a class="topbar__brand" asp-controller="Home" asp-action="Index">FUWANS</a>
+            <div class="topbar__nav" aria-hidden="true">
+                <span class="topbar__link topbar__link--active">Checkout</span>
+            </div>
+            <div class="topbar__actions">
+                <a class="section-link" asp-controller="Products" asp-action="Index">Magazaya Don</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container checkout-page">
+        <div class="checkout-layout">
+            <section class="checkout-flow">
+                <nav class="checkout-steps" aria-label="Checkout adimlari">
+                    <span>01 Kargo</span>
+                    <span class="is-active">02 Odeme</span>
+                    <span>03 Onay</span>
+                </nav>
+
+                <section class="checkout-section">
+                    <header>
+                        <h1>Odeme Bilgileri</h1>
+                        <p>Koleksiyonunuzu tamamlamak icin kart bilgilerinizi zarif ve guvenli bir adimda girin.</p>
+                    </header>
+                </section>
+
+                <div class="checkout-payment">
+                    <div class="checkout-payment__card">
+                        <p>FUWANS checkout</p>
+                        <strong>Premium card preview</strong>
+                        <strong>@(string.IsNullOrWhiteSpace(Model.CardNumber) ? "**** **** **** 1840" : Model.CardNumber)</strong>
+                    </div>
+
+                    <div class="checkout-panels">
+                        <section class="checkout-panel">
+                            <div class="checkout-panel__header">
+                                <h2>Teslimat Ozeti</h2>
+                                <a asp-action="Shipping">Duzenle</a>
+                            </div>
+                            <div class="checkout-panel__body">
+                                <strong>@Model.ShippingPreview.FullName</strong>
+                                <p>@Model.ShippingPreview.EmailAddress</p>
+                                <p>@Model.ShippingPreview.StreetAddress</p>
+                                <p>@Model.ShippingPreview.CityPostalCode</p>
+                                <p>@Model.ShippingPreview.DeliveryTitle - @Model.ShippingPreview.DeliveryDescription</p>
+                            </div>
+                        </section>
+                    </div>
+
+                    <form asp-action="Payment" method="post" class="checkout-form">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="InstallmentText" type="hidden" />
+                        <div class="checkout-form__grid">
+                            <div class="checkout-field checkout-field--full">
+                                <label asp-for="CardholderName">Kart Uzerindeki Isim</label>
+                                <input asp-for="CardholderName" placeholder="Alexander Vance" />
+                            </div>
+                            <div class="checkout-field checkout-field--full">
+                                <label asp-for="CardNumber">Kart Numarasi</label>
+                                <input asp-for="CardNumber" placeholder="4242 4242 4242 4242" />
+                            </div>
+                            <div class="checkout-field">
+                                <label asp-for="ExpirationMonth">Son Kullanma Ayi</label>
+                                <input asp-for="ExpirationMonth" placeholder="09" />
+                            </div>
+                            <div class="checkout-field">
+                                <label asp-for="ExpirationYear">Son Kullanma Yili</label>
+                                <input asp-for="ExpirationYear" placeholder="2029" />
+                            </div>
+                            <div class="checkout-field">
+                                <label asp-for="SecurityCode">Guvenlik Kodu</label>
+                                <input asp-for="SecurityCode" placeholder="184" />
+                            </div>
+                            <div class="checkout-field">
+                                <label>Odeme Tipi</label>
+                                <input value="@Model.InstallmentText" readonly />
+                            </div>
+                        </div>
+
+                        <p class="checkout-payment__note">Bu ekran demo amaclidir. Kart verileri yalnizca akis gorunumu icin tutulur.</p>
+
+                        <div class="checkout-actions">
+                            <a class="checkout-link" asp-action="Shipping">
+                                <span class="material-symbols-outlined">arrow_back</span>
+                                Kargoya Don
+                            </a>
+                            <button class="button button--solid" type="submit">Siparisi Gozden Gecir</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <aside class="checkout-summary">
+                <partial name="_CheckoutSummary" model="Model.Summary" />
+            </aside>
+        </div>
+    </main>
+
+    <partial name="_CheckoutFooter" />
+</div>
