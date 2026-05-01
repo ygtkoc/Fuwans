@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+*.db
+*.db-shm
+*.db-wal
+run.out
+run.err
+
+*.user
+*.suo
+
+appsettings.*.local.json
