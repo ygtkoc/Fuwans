@@ -6,14 +6,17 @@ namespace Fuwans.Controllers;
 
 public class ProductsController(
     IProductCatalogService productCatalogService,
+    ICartService cartService,
     INewsletterService newsletterService) : Controller
 {
     private readonly IProductCatalogService _productCatalogService = productCatalogService;
+    private readonly ICartService _cartService = cartService;
     private readonly INewsletterService _newsletterService = newsletterService;
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var model = await _productCatalogService.GetCatalogPageAsync(cancellationToken);
+        model.CartItemCount = (await _cartService.GetCartSummaryAsync(cancellationToken)).TotalQuantity;
         return View(model);
     }
 
@@ -26,7 +29,16 @@ public class ProductsController(
             return NotFound();
         }
 
+        model.CartItemCount = (await _cartService.GetCartSummaryAsync(cancellationToken)).TotalQuantity;
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddToCart(string slug, string? selectedColor, string? selectedSize, int quantity, CancellationToken cancellationToken)
+    {
+        await _cartService.AddItemAsync(slug, selectedColor, selectedSize, quantity, cancellationToken);
+        return RedirectToAction("Index", "Cart");
     }
 
     [HttpPost]

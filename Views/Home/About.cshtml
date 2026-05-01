@@ -19,9 +19,13 @@
                 <button class="icon-button" type="button" aria-label="Favoriler">
                     <span class="material-symbols-outlined">favorite</span>
                 </button>
-                <button class="icon-button" type="button" aria-label="Sepet">
+                <a class="icon-button icon-button--cart" asp-controller="Cart" asp-action="Index" aria-label="Sepet">
                     <span class="material-symbols-outlined">shopping_bag</span>
-                </button>
+                    @if (Model.CartItemCount > 0)
+                    {
+                        <span class="cart-badge">@Model.CartItemCount</span>
+                    }
+                </a>
             </div>
         </div>
     </header>

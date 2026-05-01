@@ -4,6 +4,7 @@ namespace Fuwans.ViewModels;
 
 public class HomePageViewModel
 {
+    public int CartItemCount { get; set; }
     public HeroViewModel Hero { get; set; } = new("", "", "", "", "");
     public IReadOnlyList<StoreFeatureViewModel> Features { get; set; } = [];
     public string FeaturedProductsDescription { get; set; } = "Modern yasamin ritmine uyum saglayan, en cok ilgi goren seckilerimiz.";
@@ -19,6 +20,7 @@ public class HomePageViewModel
 
 public class ProductCatalogPageViewModel
 {
+    public int CartItemCount { get; set; }
     public string Eyebrow { get; set; } = "2024 Yaz Seckisi";
     public string Title { get; set; } = "Ozenle Secilmis Modern Miras";
     public IReadOnlyList<string> FilterTitles { get; set; } = [];
@@ -34,6 +36,8 @@ public class ProductCatalogPageViewModel
 
 public class ProductDetailPageViewModel
 {
+    public int CartItemCount { get; set; }
+    public string Slug { get; set; } = string.Empty;
     public string CollectionLabel { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string PriceText { get; set; } = string.Empty;
@@ -52,6 +56,7 @@ public class ProductDetailPageViewModel
 
 public class AboutPageViewModel
 {
+    public int CartItemCount { get; set; }
     public string VisionEyebrow { get; set; } = string.Empty;
     public string VisionTitle { get; set; } = string.Empty;
     public string VisionDescription { get; set; } = string.Empty;
@@ -140,3 +145,23 @@ public record RelatedProductViewModel(
     string PriceText,
     string ImageUrl,
     string Slug);
+
+public class CartPageViewModel
+{
+    public int SelectedItemCount { get; set; }
+    public IReadOnlyList<CartItemViewModel> Items { get; set; } = [];
+    public string SubtotalText { get; set; } = "$0.00";
+    public string TotalText { get; set; } = "$0.00";
+}
+
+public class CartItemViewModel
+{
+    public int CartItemId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public string ProductSlug { get; set; } = string.Empty;
+    public string ProductImageUrl { get; set; } = string.Empty;
+    public string DetailText { get; set; } = string.Empty;
+    public string PriceText { get; set; } = string.Empty;
+    public decimal UnitPrice { get; set; }
+    public int Quantity { get; set; }
+}

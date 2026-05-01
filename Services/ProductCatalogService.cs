@@ -45,6 +45,7 @@ public class ProductCatalogService(AppDbContext dbContext) : IProductCatalogServ
             .AsSplitQuery()
             .Select(item => new ProductDetailPageViewModel
             {
+                Slug = item.Slug,
                 CollectionLabel = item.CollectionLabel,
                 Name = item.Name,
                 PriceText = item.Price.ToString("$0,0.00"),

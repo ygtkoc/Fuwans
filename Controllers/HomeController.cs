@@ -10,16 +10,19 @@ public class HomeController(
     ILogger<HomeController> logger,
     IHomePageService homePageService,
     IAboutPageService aboutPageService,
+    ICartService cartService,
     INewsletterService newsletterService) : Controller
 {
     private readonly ILogger<HomeController> _logger = logger;
     private readonly IHomePageService _homePageService = homePageService;
     private readonly IAboutPageService _aboutPageService = aboutPageService;
+    private readonly ICartService _cartService = cartService;
     private readonly INewsletterService _newsletterService = newsletterService;
 
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var model = await _homePageService.GetHomePageAsync(cancellationToken);
+        model.CartItemCount = (await _cartService.GetCartSummaryAsync(cancellationToken)).TotalQuantity;
         return View(model);
     }
 
@@ -31,6 +34,7 @@ public class HomeController(
     public async Task<IActionResult> About(CancellationToken cancellationToken)
     {
         var model = await _aboutPageService.GetAboutPageAsync(cancellationToken);
+        model.CartItemCount = (await _cartService.GetCartSummaryAsync(cancellationToken)).TotalQuantity;
         return View(model);
     }
 

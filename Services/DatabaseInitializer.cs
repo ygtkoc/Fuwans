@@ -45,6 +45,10 @@ public class DatabaseInitializer(AppDbContext dbContext)
                     CONSTRAINT PK_AboutPageContents PRIMARY KEY (Id)
                 );
             END
+            IF COL_LENGTH('CartItems', 'SelectedColorName') IS NULL
+                ALTER TABLE CartItems ADD SelectedColorName nvarchar(max) NOT NULL CONSTRAINT DF_CartItems_SelectedColorName DEFAULT '';
+            IF COL_LENGTH('CartItems', 'SelectedSizeLabel') IS NULL
+                ALTER TABLE CartItems ADD SelectedSizeLabel nvarchar(max) NULL;
             IF COL_LENGTH('Products', 'CollectionLabel') IS NULL
                 ALTER TABLE Products ADD CollectionLabel nvarchar(max) NOT NULL CONSTRAINT DF_Products_CollectionLabel DEFAULT '';
             IF COL_LENGTH('Products', 'SelectedColorName') IS NULL

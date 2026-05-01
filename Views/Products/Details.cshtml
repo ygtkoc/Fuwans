@@ -21,9 +21,13 @@
                 <button class="icon-button" type="button" aria-label="Favoriler">
                     <span class="material-symbols-outlined">favorite</span>
                 </button>
-                <button class="icon-button" type="button" aria-label="Sepet">
+                <a class="icon-button icon-button--cart" asp-controller="Cart" asp-action="Index" aria-label="Sepet">
                     <span class="material-symbols-outlined">shopping_bag</span>
-                </button>
+                    @if (Model.CartItemCount > 0)
+                    {
+                        <span class="cart-badge">@Model.CartItemCount</span>
+                    }
+                </a>
             </div>
         </div>
     </header>
@@ -55,39 +59,58 @@
 
                 <p class="detail-content__description">@Model.Description</p>
 
-                <div class="detail-selector">
-                    <span class="detail-selector__label">Renk - @Model.SelectedColorName</span>
-                    <div class="detail-selector__colors">
-                        @foreach (var color in Model.Colors)
-                        {
-                            var selectedClass = color.IsSelected ? "detail-color detail-color--selected" : "detail-color";
-                            <span class="@selectedClass" title="@color.Name" style="background-color:@color.HexCode"></span>
-                        }
-                    </div>
-                </div>
+                <form asp-controller="Products" asp-action="AddToCart" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="slug" value="@Model.Slug" />
+                    <input type="hidden" name="quantity" value="1" />
 
-                <div class="detail-selector">
-                    <div class="detail-selector__header">
-                        <span class="detail-selector__label">Beden</span>
-                        <button class="detail-inline-button" type="button">Beden Rehberi</button>
+                    <div class="detail-selector">
+                        <span class="detail-selector__label">Renk - @Model.SelectedColorName</span>
+                        <div class="detail-selector__colors">
+                            @foreach (var color in Model.Colors)
+                            {
+                                var inputId = $"color-{color.Name}";
+                                <label class="detail-color-option" for="@inputId" title="@color.Name">
+                                    <input id="@inputId" type="radio" name="selectedColor" value="@color.Name" checked="@color.IsSelected" />
+                                    <span class="@(color.IsSelected ? "detail-color detail-color--selected" : "detail-color")" style="background-color:@color.HexCode"></span>
+                                </label>
+                            }
+                        </div>
                     </div>
-                    <div class="detail-sizes">
-                        @foreach (var size in Model.Sizes)
-                        {
-                            var selectedClass = size.IsSelected ? "detail-size detail-size--selected" : "detail-size";
-                            <span class="@selectedClass">@size.Label</span>
-                        }
-                    </div>
-                    <p class="detail-selector__help">@Model.SizeGuideText</p>
-                </div>
 
-                <div class="detail-actions">
-                    <button class="button button--solid detail-actions__primary" type="button">Sepete Ekle</button>
-                    <button class="detail-actions__secondary" type="button">
-                        <span class="material-symbols-outlined">favorite</span>
-                        Favorilere Ekle
-                    </button>
-                </div>
+                    @if (Model.Sizes.Count > 0)
+                    {
+                        <div class="detail-selector">
+                            <div class="detail-selector__header">
+                                <span class="detail-selector__label">Beden</span>
+                                <button class="detail-inline-button" type="button">Beden Rehberi</button>
+                            </div>
+                            <div class="detail-sizes">
+                                @foreach (var size in Model.Sizes)
+                                {
+                                    var inputId = $"size-{size.Label}";
+                                    <label class="detail-size-option" for="@inputId">
+                                        <input id="@inputId" type="radio" name="selectedSize" value="@size.Label" checked="@size.IsSelected" />
+                                        <span class="@(size.IsSelected ? "detail-size detail-size--selected" : "detail-size")">@size.Label</span>
+                                    </label>
+                                }
+                            </div>
+                            <p class="detail-selector__help">@Model.SizeGuideText</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" name="selectedSize" value="" />
+                    }
+
+                    <div class="detail-actions">
+                        <button class="button button--solid detail-actions__primary" type="submit">Sepete Ekle</button>
+                        <button class="detail-actions__secondary" type="button">
+                            <span class="material-symbols-outlined">favorite</span>
+                            Favorilere Ekle
+                        </button>
+                    </div>
+                </form>
 
                 <div class="detail-accordion">
                     <details open>
