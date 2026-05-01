@@ -5,4 +5,5 @@ namespace Fuwans.Services;
 public interface IProductCatalogService
 {
     Task<ProductCatalogPageViewModel> GetCatalogPageAsync(CancellationToken cancellationToken);
+    Task<ProductDetailPageViewModel?> GetProductDetailAsync(string slug, CancellationToken cancellationToken);
 }

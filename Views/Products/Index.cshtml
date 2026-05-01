@@ -62,46 +62,48 @@
         {
             var cardClass = product.IsWideFeature ? "catalog-card catalog-card--feature" : "catalog-card";
             <article class="@cardClass">
-                <div class="catalog-card__image @(product.IsWideFeature ? "catalog-card__image--wide" : "catalog-card__image--portrait")">
-                    <img src="@product.PrimaryImageUrl" alt="@product.Name" />
+                <a asp-controller="Products" asp-action="Details" asp-route-slug="@product.Slug">
+                    <div class="catalog-card__image @(product.IsWideFeature ? "catalog-card__image--wide" : "catalog-card__image--portrait")">
+                        <img src="@product.PrimaryImageUrl" alt="@product.Name" />
 
-                    @if (!string.IsNullOrWhiteSpace(product.Badge))
-                    {
-                        <span class="catalog-card__badge">@product.Badge</span>
-                    }
-
-                    @if (product.IsWideFeature)
-                    {
-                        <div class="catalog-card__feature-overlay">
-                            <span>Lookbook'u Gor</span>
-                        </div>
-                        <div class="catalog-card__feature-note">
-                            <p>@product.CollectionNoteTitle</p>
-                            <span>@product.CollectionNoteText</span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="catalog-card__quick-action">@product.QuickActionText</div>
-                    }
-                </div>
-
-                @if (!product.IsWideFeature)
-                {
-                    <div class="catalog-card__content">
-                        <h3>@product.Name</h3>
-                        <p>@product.PriceText</p>
-                        @if (product.Colors.Count > 0)
+                        @if (!string.IsNullOrWhiteSpace(product.Badge))
                         {
-                            <div class="catalog-card__colors">
-                                @foreach (var color in product.Colors)
-                                {
-                                    <span title="@color.Name" style="background-color:@color.HexCode"></span>
-                                }
+                            <span class="catalog-card__badge">@product.Badge</span>
+                        }
+
+                        @if (product.IsWideFeature)
+                        {
+                            <div class="catalog-card__feature-overlay">
+                                <span>Lookbook'u Gor</span>
+                            </div>
+                            <div class="catalog-card__feature-note">
+                                <p>@product.CollectionNoteTitle</p>
+                                <span>@product.CollectionNoteText</span>
                             </div>
                         }
+                        else
+                        {
+                            <div class="catalog-card__quick-action">@product.QuickActionText</div>
+                        }
                     </div>
-                }
+
+                    @if (!product.IsWideFeature)
+                    {
+                        <div class="catalog-card__content">
+                            <h3>@product.Name</h3>
+                            <p>@product.PriceText</p>
+                            @if (product.Colors.Count > 0)
+                            {
+                                <div class="catalog-card__colors">
+                                    @foreach (var color in product.Colors)
+                                    {
+                                        <span title="@color.Name" style="background-color:@color.HexCode"></span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </a>
             </article>
         }
     </main>
@@ -141,7 +143,7 @@
         <div class="section-container footer__grid footer__grid--catalog">
             <div>
                 <div class="footer__brand">FUWANS</div>
-                <p class="footer__summary">© 2026 FUWANS. MODERN MIRASI YENIDEN TANIMLIYORUZ.</p>
+                <p class="footer__summary">(c) 2026 FUWANS. MODERN MIRASI YENIDEN TANIMLIYORUZ.</p>
             </div>
             <div class="footer__links footer__links--single">
                 <div>

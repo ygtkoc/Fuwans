@@ -69,7 +69,7 @@
 
             <div class="product-grid">
                 <article class="product-card product-card--featured">
-                    <a class="product-card__link" asp-controller="Products" asp-action="Index">
+                    <a class="product-card__link" asp-controller="Products" asp-action="Details" asp-route-slug="@featuredProduct.Slug">
                         <div class="product-card__image product-card__image--tall">
                             <img src="@featuredProduct.PrimaryImageUrl" alt="@featuredProduct.Name" />
                         </div>
@@ -85,7 +85,7 @@
                     @foreach (var product in secondaryProducts)
                     {
                         <article class="product-card">
-                            <a class="product-card__link" asp-controller="Products" asp-action="Index">
+                            <a class="product-card__link" asp-controller="Products" asp-action="Details" asp-route-slug="@product.Slug">
                                 <div class="product-card__image product-card__image--square">
                                     <img src="@product.PrimaryImageUrl" alt="@product.Name" />
                                 </div>

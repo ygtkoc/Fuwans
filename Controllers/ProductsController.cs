@@ -17,6 +17,18 @@ public class ProductsController(
         return View(model);
     }
 
+    public async Task<IActionResult> Details(string slug, CancellationToken cancellationToken)
+    {
+        var model = await _productCatalogService.GetProductDetailAsync(slug, cancellationToken);
+
+        if (model is null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Subscribe(ProductCatalogPageViewModel model, CancellationToken cancellationToken)

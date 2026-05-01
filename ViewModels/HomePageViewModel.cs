@@ -32,6 +32,24 @@ public class ProductCatalogPageViewModel
     public string SubscriptionEmail { get; set; } = string.Empty;
 }
 
+public class ProductDetailPageViewModel
+{
+    public string CollectionLabel { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string PriceText { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string SelectedColorName { get; set; } = string.Empty;
+    public IReadOnlyList<ProductColorOptionViewModel> Colors { get; set; } = [];
+    public IReadOnlyList<ProductSizeOptionViewModel> Sizes { get; set; } = [];
+    public string SizeGuideText { get; set; } = string.Empty;
+    public string DetailsText { get; set; } = string.Empty;
+    public string MaterialsText { get; set; } = string.Empty;
+    public string ShippingReturnsText { get; set; } = string.Empty;
+    public IReadOnlyList<ProductGalleryImageViewModel> GalleryImages { get; set; } = [];
+    public IReadOnlyList<RelatedProductViewModel> RelatedProducts { get; set; } = [];
+    public string NewsletterPrompt { get; set; } = "Kayit listemize katil";
+}
+
 public record HeroViewModel(
     string Eyebrow,
     string Title,
@@ -47,7 +65,8 @@ public record ProductCardViewModel(
     string Name,
     string ShortDescription,
     string PriceText,
-    string PrimaryImageUrl);
+    string PrimaryImageUrl,
+    string Slug);
 
 public record CategoryHighlightViewModel(
     string Name,
@@ -70,8 +89,29 @@ public record ProductCatalogItemViewModel(
     bool IsWideFeature,
     string CollectionNoteTitle,
     string CollectionNoteText,
-    string QuickActionText);
+    string QuickActionText,
+    string Slug);
 
 public record ProductColorViewModel(
     string Name,
     string HexCode);
+
+public record ProductGalleryImageViewModel(
+    string ImageUrl,
+    string AltText,
+    bool IsLarge);
+
+public record ProductColorOptionViewModel(
+    string Name,
+    string HexCode,
+    bool IsSelected);
+
+public record ProductSizeOptionViewModel(
+    string Label,
+    bool IsSelected);
+
+public record RelatedProductViewModel(
+    string Name,
+    string PriceText,
+    string ImageUrl,
+    string Slug);

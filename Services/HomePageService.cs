@@ -33,7 +33,8 @@ public class HomePageService(AppDbContext dbContext) : IHomePageService
                 item.Images
                     .OrderBy(image => image.DisplayOrder)
                     .Select(image => image.ImageUrl)
-                    .FirstOrDefault() ?? string.Empty))
+                    .FirstOrDefault() ?? string.Empty,
+                item.Slug))
             .ToListAsync(cancellationToken);
 
         var highlightCategories = await dbContext.Categories
