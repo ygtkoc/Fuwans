@@ -32,14 +32,14 @@ public class HomeController(
     {
         if (string.IsNullOrWhiteSpace(model.SubscriptionEmail))
         {
-            TempData["SubscriptionMessage"] = "Please enter an email address.";
+            TempData["SubscriptionMessage"] = "Lutfen bir e-posta adresi girin.";
             return RedirectToAction(nameof(Index));
         }
 
         var created = await _newsletterService.SubscribeAsync(model.SubscriptionEmail, cancellationToken);
         TempData["SubscriptionMessage"] = created
-            ? "You have been added to the inner circle."
-            : "This email is already subscribed.";
+            ? "Bulten listesine basariyla eklendiniz."
+            : "Bu e-posta adresi zaten kayitli.";
 
         return RedirectToAction(nameof(Index));
     }

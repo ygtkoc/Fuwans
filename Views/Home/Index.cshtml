@@ -1,25 +1,25 @@
 @model HomePageViewModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
 <div class="site-shell">
     <header class="topbar">
         <div class="topbar__inner section-container">
-            <nav class="topbar__nav" aria-label="Primary">
-                <a class="topbar__link topbar__link--active" href="#featured-products">Shop</a>
-                <a class="topbar__link" href="#brand-story">About</a>
-                <a class="topbar__link" href="#newsletter">Contact</a>
+            <nav class="topbar__nav" aria-label="Ana menu">
+                <a class="topbar__link topbar__link--active" asp-controller="Products" asp-action="Index">Urunler</a>
+                <a class="topbar__link" href="#marka-hikayesi">Hakkimizda</a>
+                <a class="topbar__link" href="#bulten">Iletisim</a>
             </nav>
             <a class="topbar__brand" asp-controller="Home" asp-action="Index">FUWANS</a>
-            <div class="topbar__actions" aria-label="Quick actions">
-                <button class="icon-button" type="button" aria-label="Account">
+            <div class="topbar__actions" aria-label="Hizli islemler">
+                <button class="icon-button" type="button" aria-label="Hesabim">
                     <span class="material-symbols-outlined">person</span>
                 </button>
-                <button class="icon-button" type="button" aria-label="Wishlist">
+                <button class="icon-button" type="button" aria-label="Favoriler">
                     <span class="material-symbols-outlined">favorite</span>
                 </button>
-                <button class="icon-button" type="button" aria-label="Shopping bag">
+                <button class="icon-button" type="button" aria-label="Sepet">
                     <span class="material-symbols-outlined">shopping_bag</span>
                 </button>
             </div>
@@ -35,8 +35,8 @@
             <span class="eyebrow">@Model.Hero.Eyebrow</span>
             <h1>@Model.Hero.Title</h1>
             <div class="hero__actions">
-                <a class="button button--solid" href="#featured-products">@Model.Hero.PrimaryActionText</a>
-                <a class="button button--ghost" href="#category-highlights">@Model.Hero.SecondaryActionText</a>
+                <a class="button button--solid" asp-controller="Products" asp-action="Index">@Model.Hero.PrimaryActionText</a>
+                <a class="button button--ghost" asp-controller="Products" asp-action="Index">@Model.Hero.SecondaryActionText</a>
             </div>
         </div>
     </section>
@@ -53,13 +53,13 @@
         </div>
     </section>
 
-    <section class="section-container section-spacing" id="featured-products">
+    <section class="section-container section-spacing" id="one-cikanlar">
         <div class="section-heading">
             <div>
-                <h2>The Essentials</h2>
+                <h2>Seckin Parcalar</h2>
                 <p>@Model.FeaturedProductsDescription</p>
             </div>
-            <a class="section-link" href="#category-highlights">View All</a>
+            <a class="section-link" asp-controller="Products" asp-action="Index">Tumunu Gor</a>
         </div>
 
         @if (Model.FeaturedProducts.Count > 0)
@@ -69,28 +69,32 @@
 
             <div class="product-grid">
                 <article class="product-card product-card--featured">
-                    <div class="product-card__image product-card__image--tall">
-                        <img src="@featuredProduct.PrimaryImageUrl" alt="@featuredProduct.Name" />
-                    </div>
-                    <div class="product-card__header">
-                        <h3>@featuredProduct.Name</h3>
-                        <span>@featuredProduct.PriceText</span>
-                    </div>
-                    <p class="product-card__meta">@featuredProduct.ShortDescription</p>
+                    <a class="product-card__link" asp-controller="Products" asp-action="Index">
+                        <div class="product-card__image product-card__image--tall">
+                            <img src="@featuredProduct.PrimaryImageUrl" alt="@featuredProduct.Name" />
+                        </div>
+                        <div class="product-card__header">
+                            <h3>@featuredProduct.Name</h3>
+                            <span>@featuredProduct.PriceText</span>
+                        </div>
+                        <p class="product-card__meta">@featuredProduct.ShortDescription</p>
+                    </a>
                 </article>
 
                 <div class="product-grid__stack">
                     @foreach (var product in secondaryProducts)
                     {
                         <article class="product-card">
-                            <div class="product-card__image product-card__image--square">
-                                <img src="@product.PrimaryImageUrl" alt="@product.Name" />
-                            </div>
-                            <div class="product-card__header">
-                                <h3>@product.Name</h3>
-                                <span>@product.PriceText</span>
-                            </div>
-                            <p class="product-card__meta">@product.ShortDescription</p>
+                            <a class="product-card__link" asp-controller="Products" asp-action="Index">
+                                <div class="product-card__image product-card__image--square">
+                                    <img src="@product.PrimaryImageUrl" alt="@product.Name" />
+                                </div>
+                                <div class="product-card__header">
+                                    <h3>@product.Name</h3>
+                                    <span>@product.PriceText</span>
+                                </div>
+                                <p class="product-card__meta">@product.ShortDescription</p>
+                            </a>
                         </article>
                     }
                 </div>
@@ -98,7 +102,7 @@
         }
     </section>
 
-    <section class="collection-band section-spacing" id="category-highlights">
+    <section class="collection-band section-spacing" id="kategori-vitrini">
         <div class="section-container category-grid">
             @foreach (var category in Model.HighlightCategories)
             {
@@ -106,7 +110,7 @@
                     <img src="@category.HighlightImageUrl" alt="@category.Name" />
                     <div class="category-card__overlay">
                         <h3>@category.Name</h3>
-                        <a href="#featured-products">
+                        <a asp-controller="Products" asp-action="Index">
                             @category.CallToActionText
                             <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
@@ -116,7 +120,7 @@
         </div>
     </section>
 
-    <section class="section-container section-spacing story-grid" id="brand-story">
+    <section class="section-container section-spacing story-grid" id="marka-hikayesi">
         <div class="story-grid__media">
             <div class="story-grid__frame">
                 <img src="@Model.BrandStory.ImageUrl" alt="@Model.BrandStory.Title" />
@@ -131,13 +135,13 @@
                     <p>@paragraph</p>
                 }
             </div>
-            <a class="section-link" href="#newsletter">@Model.BrandStory.ActionText</a>
+            <a class="section-link" href="#bulten">@Model.BrandStory.ActionText</a>
         </div>
     </section>
 
-    <section class="newsletter section-spacing" id="newsletter">
+    <section class="newsletter section-spacing" id="bulten">
         <div class="newsletter__inner section-container section-container--narrow">
-            <h2>Join The Inner Circle</h2>
+            <h2>Ic Cembere Katilin</h2>
             <p>@Model.NewsletterDescription</p>
 
             @if (TempData["SubscriptionMessage"] is string message)
@@ -148,10 +152,10 @@
             <form asp-action="Subscribe" asp-controller="Home" method="post" class="newsletter__form">
                 @Html.AntiForgeryToken()
                 <div class="newsletter__field">
-                    <label asp-for="SubscriptionEmail">Email Address</label>
-                    <input asp-for="SubscriptionEmail" type="email" placeholder="YOUR@EMAIL.COM" />
+                    <label asp-for="SubscriptionEmail">E-posta Adresi</label>
+                    <input asp-for="SubscriptionEmail" type="email" placeholder="ORNEK@EPOSTA.COM" />
                 </div>
-                <button class="button button--solid" type="submit">Subscribe</button>
+                <button class="button button--solid" type="submit">Abone Ol</button>
             </form>
         </div>
     </section>
@@ -164,28 +168,28 @@
             </div>
             <div class="footer__links">
                 <div>
-                    <span>Discover</span>
-                    <a href="#featured-products">Shop</a>
-                    <a href="#category-highlights">Collections</a>
-                    <a href="#brand-story">Bespoke</a>
+                    <span>Kesfet</span>
+                    <a asp-controller="Products" asp-action="Index">Urunler</a>
+                    <a href="#kategori-vitrini">Koleksiyonlar</a>
+                    <a href="#marka-hikayesi">Ozel Uretim</a>
                 </div>
                 <div>
-                    <span>Company</span>
-                    <a href="#brand-story">About</a>
-                    <a href="#newsletter">Sustainability</a>
-                    <a asp-controller="Home" asp-action="Privacy">Legal</a>
+                    <span>Kurumsal</span>
+                    <a href="#marka-hikayesi">Hakkimizda</a>
+                    <a href="#bulten">Surdurulebilirlik</a>
+                    <a asp-controller="Home" asp-action="Privacy">Yasal</a>
                 </div>
             </div>
             <div class="footer__meta">
                 <div class="footer__icons">
-                    <a href="#" aria-label="Global">
+                    <a href="#" aria-label="Dil">
                         <span class="material-symbols-outlined">language</span>
                     </a>
-                    <a href="#" aria-label="Share">
+                    <a href="#" aria-label="Paylas">
                         <span class="material-symbols-outlined">share</span>
                     </a>
                 </div>
-                <div>© 2026 FUWANS. DEFINING MODERN HERITAGE.</div>
+                <div>© 2026 FUWANS. MODERN MIRASI YENIDEN TANIMLIYORUZ.</div>
             </div>
         </div>
     </footer>

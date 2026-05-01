@@ -1,0 +1,161 @@
+@model ProductCatalogPageViewModel
+@{
+    ViewData["Title"] = "Urunler";
+}
+
+<div class="site-shell">
+    <header class="topbar">
+        <div class="topbar__inner section-container">
+            <nav class="topbar__nav" aria-label="Ana menu">
+                <a class="topbar__link topbar__link--active" asp-controller="Products" asp-action="Index">Urunler</a>
+                <a class="topbar__link" asp-controller="Home" asp-action="Index" asp-fragment="marka-hikayesi">Hakkimizda</a>
+                <a class="topbar__link" asp-controller="Home" asp-action="Index" asp-fragment="bulten">Iletisim</a>
+            </nav>
+            <a class="topbar__brand" asp-controller="Home" asp-action="Index">FUWANS</a>
+            <div class="topbar__actions" aria-label="Hizli islemler">
+                <button class="icon-button" type="button" aria-label="Hesabim">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <button class="icon-button" type="button" aria-label="Favoriler">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+                <button class="icon-button" type="button" aria-label="Sepet">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="catalog-hero section-container">
+        <div class="catalog-hero__inner">
+            <span class="eyebrow eyebrow--dark">@Model.Eyebrow</span>
+            <h1>@Model.Title</h1>
+            <div class="catalog-hero__line"></div>
+        </div>
+    </section>
+
+    <section class="catalog-toolbar">
+        <div class="section-container catalog-toolbar__inner">
+            <div class="catalog-toolbar__filters">
+                @foreach (var filter in Model.FilterTitles)
+                {
+                    <button class="catalog-toolbar__button" type="button">
+                        <span>@filter</span>
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                }
+            </div>
+            <div class="catalog-toolbar__sort">
+                <label for="sortOrder">Sirala:</label>
+                <select id="sortOrder">
+                    @foreach (var option in Model.SortOptions)
+                    {
+                        <option selected="@(option == Model.SelectedSortOption)">@option</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <main class="section-container catalog-grid">
+        @foreach (var product in Model.Products)
+        {
+            var cardClass = product.IsWideFeature ? "catalog-card catalog-card--feature" : "catalog-card";
+            <article class="@cardClass">
+                <div class="catalog-card__image @(product.IsWideFeature ? "catalog-card__image--wide" : "catalog-card__image--portrait")">
+                    <img src="@product.PrimaryImageUrl" alt="@product.Name" />
+
+                    @if (!string.IsNullOrWhiteSpace(product.Badge))
+                    {
+                        <span class="catalog-card__badge">@product.Badge</span>
+                    }
+
+                    @if (product.IsWideFeature)
+                    {
+                        <div class="catalog-card__feature-overlay">
+                            <span>Lookbook'u Gor</span>
+                        </div>
+                        <div class="catalog-card__feature-note">
+                            <p>@product.CollectionNoteTitle</p>
+                            <span>@product.CollectionNoteText</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="catalog-card__quick-action">@product.QuickActionText</div>
+                    }
+                </div>
+
+                @if (!product.IsWideFeature)
+                {
+                    <div class="catalog-card__content">
+                        <h3>@product.Name</h3>
+                        <p>@product.PriceText</p>
+                        @if (product.Colors.Count > 0)
+                        {
+                            <div class="catalog-card__colors">
+                                @foreach (var color in product.Colors)
+                                {
+                                    <span title="@color.Name" style="background-color:@color.HexCode"></span>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </article>
+        }
+    </main>
+
+    <div class="catalog-pagination section-container">
+        <button type="button">Onceki</button>
+        <div class="catalog-pagination__pages">
+            <span class="is-active">01</span>
+            <span>02</span>
+            <span>03</span>
+        </div>
+        <button type="button">Sonraki Sayfa</button>
+    </div>
+
+    <section class="newsletter newsletter--catalog">
+        <div class="newsletter__inner section-container section-container--narrow">
+            <h2>@Model.NewsletterTitle</h2>
+            <p>@Model.NewsletterDescription</p>
+
+            @if (TempData["CatalogSubscriptionMessage"] is string message)
+            {
+                <div class="newsletter__message">@message</div>
+            }
+
+            <form asp-controller="Products" asp-action="Subscribe" method="post" class="newsletter__form">
+                @Html.AntiForgeryToken()
+                <div class="newsletter__field">
+                    <label asp-for="SubscriptionEmail">E-posta Adresi</label>
+                    <input asp-for="SubscriptionEmail" type="email" placeholder="E-postanizi girin" />
+                </div>
+                <button class="button button--solid" type="submit">Abone Ol</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer footer--compact">
+        <div class="section-container footer__grid footer__grid--catalog">
+            <div>
+                <div class="footer__brand">FUWANS</div>
+                <p class="footer__summary">© 2026 FUWANS. MODERN MIRASI YENIDEN TANIMLIYORUZ.</p>
+            </div>
+            <div class="footer__links footer__links--single">
+                <div>
+                    <a href="#">Surdurulebilirlik</a>
+                    <a asp-controller="Home" asp-action="Privacy">Yasal</a>
+                    <a href="#">Teslimat</a>
+                    <a asp-controller="Home" asp-action="Index" asp-fragment="bulten">Bulten</a>
+                </div>
+            </div>
+            <div class="footer__social">
+                <a href="#">Instagram</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Gunluk</a>
+            </div>
+        </div>
+    </footer>
+</div>

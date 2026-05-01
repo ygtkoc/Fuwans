@@ -10,6 +10,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductImage> ProductImages => Set<ProductImage>();
+    public DbSet<ProductColor> ProductColors => Set<ProductColor>();
     public DbSet<BrandStory> BrandStories => Set<BrandStory>();
     public DbSet<NewsletterSubscriber> NewsletterSubscribers => Set<NewsletterSubscriber>();
     public DbSet<CustomerAccount> CustomerAccounts => Set<CustomerAccount>();
@@ -58,6 +59,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(image => image.Product)
             .WithMany(product => product.Images)
             .HasForeignKey(image => image.ProductId);
+
+        modelBuilder.Entity<ProductColor>()
+            .HasOne(color => color.Product)
+            .WithMany(product => product.Colors)
+            .HasForeignKey(color => color.ProductId);
 
         modelBuilder.Entity<CustomerAddress>()
             .HasOne(address => address.CustomerAccount)
