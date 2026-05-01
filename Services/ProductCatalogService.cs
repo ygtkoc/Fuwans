@@ -42,6 +42,7 @@ public class ProductCatalogService(AppDbContext dbContext) : IProductCatalogServ
     {
         var product = await dbContext.Products
             .Where(item => item.Slug == slug)
+            .AsSplitQuery()
             .Select(item => new ProductDetailPageViewModel
             {
                 CollectionLabel = item.CollectionLabel,

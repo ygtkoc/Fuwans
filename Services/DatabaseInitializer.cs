@@ -194,6 +194,7 @@ public class DatabaseInitializer(AppDbContext dbContext)
             .Include(item => item.Images)
             .Include(item => item.Colors)
             .Include(item => item.Sizes)
+            .AsSplitQuery()
             .FirstOrDefaultAsync(item => item.Slug == seed.Slug)
             ?? new Product { Slug = seed.Slug };
 
