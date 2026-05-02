@@ -10,6 +10,16 @@ export default {
         "./app/**/*.php",
         "./routes/**/*.php",
     ],
+    safelist: [
+        "h1-title",
+        "h2-title",
+        "h3-title",
+        "h4-title",
+        "h5-title",
+        "big-text",
+        "regular-text",
+        "small-text",
+    ],
     theme: {
         screens: {
             desktop: "1900px",
@@ -33,6 +43,7 @@ export default {
                 clay: "#4A2C2A",
                 moss: "#8F6F6B",
                 brass: "#8F6F6B",
+                secondaryTitle: "#1B1B1C",
             },
             fontFamily: {
                 desc: [

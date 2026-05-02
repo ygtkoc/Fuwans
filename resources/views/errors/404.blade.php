@@ -90,10 +90,10 @@
                 </a>
 
                 <p class="mt-12 font-link text-xs font-medium uppercase tracking-[.28em] text-desc">404 / Sayfa kayip</p>
-                <h1 class="mt-5 font-title text-[3.7rem] font-normal leading-[.9] tracking-[.01em] text-title md:text-[6.8rem]">
+                <h1 class="h1-title mt-5 text-title">
                     Bu adres koleksiyonda yok.
                 </h1>
-                <p class="mt-6 max-w-xl font-desc text-base leading-7 text-desc md:text-lg">
+                <p class="regular-text mt-6 max-w-xl text-desc">
                     Aradigin sayfa tasinmis ya da kaldirilmis olabilir. Ana sayfaya donup Fuwans deneyimine kaldigin yerden devam edebilirsin.
                 </p>
 

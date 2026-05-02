@@ -5,5 +5,8 @@
 <div class="w-full home-page bg-[#F5F5F0]">
     @section('content')
         @include('partials.home.hero')
+        @include('partials.home.second-section')
+        @include('partials.home.products')
+        @include('partials.home.categories')
     @endsection
 </div>
