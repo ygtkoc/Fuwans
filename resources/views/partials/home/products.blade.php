@@ -10,13 +10,13 @@
             </div>
             <a href="/urunler" class="regular-text uppercase text-center md:self-auto text-secondary self-center under-anim md:tracking-wider tracking-wide">VIEW ALL</a>
         </div>
-        <div class="w-full grid grid-cols-5 xl:gap-10 md:gap-8 gap-6">
+        <div class="w-full grid sm:grid-cols-5 xs:grid-cols-2 grid-cols-1 xl:gap-10 md:gap-8 gap-6">
             <!-- Öne çıkan büyük gösterilmek istenen ürün bu şekilde olucak -->
-             <div class="col-span-3 flex flex-col xl:gap-10 md:gap-8 gap-6">
+             <div class="sm:col-span-3 flex flex-col xl:gap-10 md:gap-8 gap-6">
                 <article class="w-full">
                     <a href="/urun-detay" class="w-full flex flex-col xl:gap-6 md:gap-5 gap-4 group">
                         <div class="w-full bg-white aspect-square relative overflow-hidden">
-                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
+                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="w-full flex flex-col xl:gap-4 md:gap-3.5 gap-2.5">
                             <div class="w-full flex items-center justify-between gap-4">
@@ -29,11 +29,11 @@
                 </article>
              </div>
              <!-- Küçük ürünler  -->
-            <div class="xl:gap-10 md:gap-8 gap-6 flex flex-col col-span-2">
+            <div class="xl:gap-10 md:gap-8 gap-6 flex flex-col sm:col-span-2">
                 <article class="w-full"> 
                     <a href="/urun-detay" class="w-full flex flex-col xl:gap-6 md:gap-5 gap-4 group">
                         <div class="w-full bg-white aspect-square relative overflow-hidden">
-                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
+                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="w-full flex flex-col xl:gap-4 md:gap-3.5 gap-2.5">
                             <div class="w-full flex items-center justify-between gap-4">
@@ -47,7 +47,7 @@
                 <article class="w-full"> 
                     <a href="/urun-detay" class="w-full flex flex-col xl:gap-6 md:gap-5 gap-4 group">
                         <div class="w-full bg-white aspect-square relative overflow-hidden">
-                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
+                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="w-full flex flex-col xl:gap-4 md:gap-3.5 gap-2.5">
                             <div class="w-full flex items-center justify-between gap-4">
@@ -63,7 +63,7 @@
             <!-- <article class="w-full"> 
                     <a href="/urun-detay" class="w-full flex flex-col xl:gap-6 md:gap-5 gap-4 group">
                         <div class="w-full bg-white aspect-square relative overflow-hidden">
-                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
+                            <img src="{{ asset('assets/images/hero-img2.jpg') }}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover animated group-hover:scale-105" loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="w-full flex flex-col xl:gap-4 md:gap-3.5 gap-2.5">
                             <div class="w-full flex items-center justify-between gap-4">

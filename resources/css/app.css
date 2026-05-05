@@ -245,6 +245,69 @@
         color: var(--color-main);
     }
 
+    input,
+    textarea,
+    select,
+    button {
+        outline: none !important;
+        box-shadow: none !important;
+        --tw-ring-color: transparent !important;
+        --tw-ring-offset-width: 0px !important;
+        --tw-ring-offset-color: transparent !important;
+        --tw-ring-offset-shadow: 0 0 #0000 !important;
+        --tw-ring-shadow: 0 0 #0000 !important;
+    }
+
+    input:focus,
+    input:focus-visible,
+    textarea:focus,
+    textarea:focus-visible,
+    select:focus,
+    select:focus-visible,
+    button:focus,
+    button:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        --tw-ring-color: transparent !important;
+        --tw-ring-offset-width: 0px !important;
+        --tw-ring-offset-shadow: 0 0 #0000 !important;
+        --tw-ring-shadow: 0 0 #0000 !important;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    textarea:-webkit-autofill:active,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus,
+    select:-webkit-autofill:active {
+        -webkit-text-fill-color: currentColor !important;
+        caret-color: currentColor !important;
+        background-color: transparent !important;
+        background-image: none !important;
+        box-shadow: 0 0 0 1000px transparent inset !important;
+        -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+        transition:
+            background-color 999999s ease-in-out 0s,
+            color 999999s ease-in-out 0s !important;
+    }
+
+    input:-moz-autofill,
+    textarea:-moz-autofill,
+    select:-moz-autofill {
+        color: currentColor !important;
+        caret-color: currentColor !important;
+        background-color: transparent !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
     ::-webkit-scrollbar {
         width: 0;
         height: 0;

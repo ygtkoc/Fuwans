@@ -547,11 +547,130 @@ function initHeroClipSlider() {
     });
 }
 
+function initCategoryFloatAnimations(container) {
+    const cards = Array.from(
+        container.querySelectorAll(".categories-floating-card"),
+    );
+
+    if (
+        !cards.length ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+        return;
+    }
+
+    const duration = 5.8;
+    const timelines = [];
+
+    const createAnimations = () => {
+        timelines.forEach((timeline) => timeline.kill());
+        timelines.length = 0;
+
+        cards.forEach((card, index) => {
+            const slide = card.closest(".swiper-slide");
+            const limit = slide
+                ? Math.max((slide.clientHeight - card.clientHeight) / 2, 0)
+                : 0;
+            const slideIndex = Number(
+                slide?.dataset.swiperSlideIndex ?? index,
+            );
+            const startsDown = slideIndex % 2 === 0;
+            const fromY = startsDown ? -limit : limit;
+            const toY = startsDown ? limit : -limit;
+
+            gsap.killTweensOf(card);
+            gsap.set(card, {
+                y: fromY,
+                force3D: true,
+            });
+
+            timelines.push(
+                gsap.to(card, {
+                    y: toY,
+                    duration,
+                    ease: "sine.inOut",
+                    repeat: -1,
+                    yoyo: true,
+                }),
+            );
+        });
+    };
+
+    let resizeTimer = null;
+
+    createAnimations();
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(createAnimations, 160);
+    });
+}
+
+function copyTextFallback(text) {
+    const textarea = document.createElement("textarea");
+
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.top = "-9999px";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+}
+
+function initSiteShare() {
+    const shareButtons = document.querySelectorAll(".share-site");
+
+    if (!shareButtons.length) {
+        return;
+    }
+
+    shareButtons.forEach((button) => {
+        const defaultLabel = button.getAttribute("aria-label") || "Share site";
+
+        button.addEventListener("click", async () => {
+            const url = window.location.href;
+            const shareData = {
+                title: document.title,
+                text: "Fuwans",
+                url,
+            };
+
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    return;
+                }
+
+                if (navigator.clipboard?.writeText) {
+                    await navigator.clipboard.writeText(url);
+                } else {
+                    copyTextFallback(url);
+                }
+
+                button.setAttribute("aria-label", "Site link copied");
+                clearTimeout(button.shareResetTimer);
+                button.shareResetTimer = setTimeout(() => {
+                    button.setAttribute("aria-label", defaultLabel);
+                }, 1400);
+            } catch (error) {
+                if (error?.name === "AbortError") {
+                    return;
+                }
+
+                copyTextFallback(url);
+            }
+        });
+    });
+}
+
 $(function () {
     initScrollControl();
     initUnderlineAnimations();
     initMobileMenu();
     initHeroClipSlider();
+    initSiteShare();
 
     const homeProperties = document.querySelector(".home-properties-swiper");
     if (homeProperties) {
@@ -580,5 +699,35 @@ $(function () {
                 },
             },
         });
+    }
+
+    const homeCategories = document.querySelector(".categories-swiper");
+    if (homeCategories) {
+        new Swiper(homeCategories, {
+            slidesPerView: 1.3,
+            spaceBetween: 16,
+            loop: true,
+            speed: 800,
+            preventInteractionOnTransition: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                500: {
+                    slidesPerView: 2,
+                    spaceBetween: 16,
+                },
+                800: {
+                    slidesPerView: 3,
+                    spaceBetween: 16,
+                },
+                1441: {
+                    slidesPerView: 3,
+                    spaceBetween: 16,
+                },
+            },
+        });
+        initCategoryFloatAnimations(homeCategories);
     }
 });
