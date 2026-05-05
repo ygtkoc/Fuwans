@@ -2,7 +2,7 @@
     <div class="max-w-xl w-full flex md:flex-row flex-col md:justify-between items-start xxl:gap-16 laptopMd:gap-12 md:gap-10 gap-8">
         <div class="max-w-[260px] md:w-[25%] w-full flex flex-col items-start xxl:gap-10 md:gap-7 gap-5">
             <a href="/" class="relative xxl:h-7 h-6">
-                <img src="{{ asset('assets/images/logo.png') }}" class="h-full object-contain" loading="eager" decoding="sync" alt="Fuwans">
+                <img src="{{ asset('assets/images/FUWANS.svg') }}" class="h-full object-contain" loading="eager" decoding="sync" alt="Fuwans">
             </a>
             <div class="w-full uppercase text-secondary font-title font-medium small-text">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis fugiat doloremque ratione!</p>

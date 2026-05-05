@@ -13,7 +13,7 @@
             <a href="/iletisim" class="under-anim text-[1.15em] font-title font-normal tracking-[.05em] text-secondary">İLETİŞİM</a>
         </nav>
         <a href="/" class="relative h-[2.5em]">
-            <img src="{{ asset('assets/images/logo.png') }}" class="h-full object-contain" decoding="async" fetchpriority="high" alt="Fuwans">
+            <img src="{{ asset('assets/images/FUWANS.svg') }}" class="h-full object-contain" decoding="async" fetchpriority="high" alt="Fuwans">
         </a>
         <div class="md:w-[40%] md:flex hidden items-center justify-end gap-[1em]">
             <a href="/profile" class="group">

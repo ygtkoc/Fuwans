@@ -9,6 +9,5 @@
         @include('partials.home.products')
         @include('partials.home.categories')
         @include('partials.home.our-philosophy')
-        @include('partials.home.subscribe')
     @endsection
 </div>

@@ -1,4 +1,4 @@
-<section class="w-full md:py-20 py-12 px-4 flex justify-center">
+<section class="w-full md:py-20 py-12 px-4 flex justify-center overflow-hidden">
     <div class="max-w-xl w-full flex md:flex-row flex-col md:justify-between items-center xxl:gap-12 md:gap-10 gap-8">
         <div class="md:w-[46.34%] max-md:max-w-[400px] w-full aspect-square bg-[#F0EDED] relative flex items-center justify-center xxl:p-8 md:p-4 p-2">
             <img src="{{ asset('assets/images/philosophy-img.png') }}" class="relative z-20 w-full h-full object-cover" loading="lazy" decoding="async" alt="">
