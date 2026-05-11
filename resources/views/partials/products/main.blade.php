@@ -235,7 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center xxl:gap-3 gap-2.5">
+                        <div class="md:flex hidden items-center xxl:gap-3 gap-2.5">
                             <button class="group active-grid grid-btn" data-grid="4" type="button">
                                 <svg class="w-4 animated" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                     <path class="animated fill-secondary/40 group-hover:fill-secondary" d="M0 7.00001V0H7.00001V7.00001H0V7.00001M0 16V9.00001H7.00001V16H0V16M9.00001 7.00001V0H16V7.00001H9.00001V7.00001M9.00001 16V9.00001H16V16H9.00001V16M1.00001 6H6V1.00001H1.00001V6V6M10 6H15V1.00001H10V6V6M10 15H15V10H10V15V15M1.00001 15H6V10H1.00001V15V15M10 6V6V6V6V6V6M10 10V10V10V10V10V10M6 10V10V10V10V10V10M6 6V6V6V6V6V6" fill="#321716"/>
