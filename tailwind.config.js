@@ -19,6 +19,8 @@ export default {
         "big-text",
         "regular-text",
         "small-text",
+        "laptopMd:grid-cols-4",
+        "laptopMd:grid-cols-6",
     ],
     theme: {
         screens: {

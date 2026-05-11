@@ -385,6 +385,166 @@ function initMobileMenu() {
     });
 }
 
+function initFilterDropdowns() {
+    const dropdowns = Array.from(document.querySelectorAll(".filter-dropdown"));
+
+    if (!dropdowns.length) {
+        return;
+    }
+
+    const states = new Map();
+
+    const closeDropdown = (dropdown) => {
+        const state = states.get(dropdown);
+
+        if (!state || !state.isOpen) {
+            return;
+        }
+
+        state.isOpen = false;
+        state.timeline?.kill();
+        gsap.killTweensOf([
+            state.panel,
+            state.content,
+            state.arrow,
+            state.icon,
+            ...state.items,
+        ]);
+
+        state.button.setAttribute("aria-expanded", "false");
+        state.panel.setAttribute("aria-hidden", "true");
+
+        state.timeline = gsap
+            .timeline({
+                defaults: { ease: "power2.inOut" },
+                onComplete: () => {
+                    state.panel.classList.add("hidden");
+                    gsap.set(state.panel, { clearProps: "opacity,visibility,y,scale" });
+                    gsap.set(state.content, { clearProps: "clipPath,filter" });
+                    gsap.set(state.arrow, { clearProps: "opacity,y,scale" });
+                    gsap.set(state.items, { clearProps: "opacity,y" });
+                },
+            })
+            .to(state.icon, { rotation: 0, duration: 0.22 }, 0)
+            .to(state.items, { autoAlpha: 0, y: -5, duration: 0.14, stagger: 0.018 }, 0)
+            .to(state.arrow, { autoAlpha: 0, y: -3, scale: 0.86, duration: 0.18 }, 0)
+            .to(
+                state.content,
+                {
+                    clipPath: "inset(0% 0% 100% 0% round 6px)",
+                    filter: "blur(4px)",
+                    duration: 0.24,
+                },
+                0.03,
+            )
+            .to(state.panel, { autoAlpha: 0, y: -8, scale: 0.98, duration: 0.24 }, 0.03);
+    };
+
+    const openDropdown = (dropdown) => {
+        const state = states.get(dropdown);
+
+        if (!state || state.isOpen) {
+            return;
+        }
+
+        dropdowns.forEach((item) => {
+            if (item !== dropdown) {
+                closeDropdown(item);
+            }
+        });
+
+        state.isOpen = true;
+        state.timeline?.kill();
+        gsap.killTweensOf([
+            state.panel,
+            state.content,
+            state.arrow,
+            state.icon,
+            ...state.items,
+        ]);
+
+        state.button.setAttribute("aria-expanded", "true");
+        state.panel.setAttribute("aria-hidden", "false");
+        state.panel.classList.remove("hidden");
+
+        gsap.set(state.panel, { autoAlpha: 0, y: -10, scale: 0.985, transformOrigin: "top center" });
+        gsap.set(state.content, {
+            clipPath: "inset(0% 0% 100% 0% round 6px)",
+            filter: "blur(4px)",
+            transformOrigin: "top center",
+        });
+        gsap.set(state.arrow, { autoAlpha: 0, y: -4, scale: 0.86 });
+        gsap.set(state.items, { autoAlpha: 0, y: 8 });
+
+        state.timeline = gsap
+            .timeline({ defaults: { ease: "power3.out" } })
+            .to(state.icon, { rotation: 180, duration: 0.34, ease: "power2.inOut" }, 0)
+            .to(state.panel, { autoAlpha: 1, y: 0, scale: 1, duration: 0.34 }, 0)
+            .to(state.arrow, { autoAlpha: 1, y: 0, scale: 1, duration: 0.3 }, 0.05)
+            .to(
+                state.content,
+                {
+                    clipPath: "inset(0% 0% 0% 0% round 6px)",
+                    filter: "blur(0px)",
+                    duration: 0.42,
+                    ease: "power4.out",
+                },
+                0.03,
+            )
+            .to(state.items, { autoAlpha: 1, y: 0, duration: 0.32, stagger: 0.045 }, 0.16);
+    };
+
+    dropdowns.forEach((dropdown) => {
+        const button = dropdown.querySelector(".filter-dropdown-button");
+        const panel = dropdown.querySelector(".filter-dropdown-panel");
+        const content = dropdown.querySelector(".filter-dropdown-content");
+        const arrow = dropdown.querySelector(".filter-dropdown-arrow");
+        const icon = dropdown.querySelector(".filter-dropdown-icon");
+        const items = Array.from(panel?.querySelectorAll("label, a, button") ?? []);
+
+        if (!button || !panel || !content) {
+            return;
+        }
+
+        states.set(dropdown, {
+            button,
+            panel,
+            content,
+            arrow,
+            icon,
+            items,
+            isOpen: false,
+            timeline: null,
+        });
+
+        button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const state = states.get(dropdown);
+
+            if (state?.isOpen) {
+                closeDropdown(dropdown);
+                return;
+            }
+
+            openDropdown(dropdown);
+        });
+
+        panel.addEventListener("click", (event) => {
+            event.stopPropagation();
+        });
+    });
+
+    document.addEventListener("click", () => {
+        dropdowns.forEach(closeDropdown);
+    });
+
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            dropdowns.forEach(closeDropdown);
+        }
+    });
+}
+
 function initHeroClipSlider() {
     const hero = document.querySelector(".hero-img-content");
     if (!hero) {
@@ -665,12 +825,164 @@ function initSiteShare() {
     });
 }
 
+function initProductColorSwitching() {
+    document.addEventListener("click", (event) => {
+        const button = event.target.closest(".product-item-color-btn");
+
+        if (!button) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const product = button.closest(".product-item");
+        const nextImage = button.dataset.img;
+
+        if (!product || !nextImage) {
+            return;
+        }
+
+        const image =
+            product.querySelector(".product-item-image") ||
+            product.querySelector("img");
+
+        if (!image || image.getAttribute("src") === nextImage) {
+            product
+                .querySelectorAll(".product-item-color-btn")
+                .forEach((item) => item.classList.toggle("active-color", item === button));
+            return;
+        }
+
+        product
+            .querySelectorAll(".product-item-color-btn")
+            .forEach((item) => item.classList.toggle("active-color", item === button));
+
+        const preloadedImage = new Image();
+
+        preloadedImage.onload = () => {
+            gsap.killTweensOf(image);
+            gsap
+                .timeline()
+                .to(image, {
+                    autoAlpha: 0,
+                    scale: 1.025,
+                    duration: 0.18,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        image.setAttribute("src", nextImage);
+                    },
+                })
+                .fromTo(
+                    image,
+                    { autoAlpha: 0, scale: 1.025 },
+                    {
+                        autoAlpha: 1,
+                        scale: 1,
+                        duration: 0.34,
+                        ease: "power3.out",
+                        onComplete: () => {
+                            gsap.set(image, { clearProps: "transform,opacity,visibility" });
+                        },
+                    },
+                );
+        };
+
+        preloadedImage.src = nextImage;
+    });
+}
+
+function initProductGridSwitching() {
+    document.addEventListener("click", (event) => {
+        const button = event.target.closest(".grid-btn");
+
+        if (!button) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const nextGrid = button.dataset.grid;
+
+        if (!["4", "6"].includes(nextGrid)) {
+            return;
+        }
+
+        const section = button.closest("section") || document;
+        const grid = section.querySelector(".grid-area");
+
+        if (!grid || grid.dataset.grid === nextGrid || grid.dataset.animating === "true") {
+            return;
+        }
+
+        const buttons = section.querySelectorAll(".grid-btn");
+        const items = Array.from(grid.children);
+        const currentHeight = grid.offsetHeight;
+
+        grid.dataset.animating = "true";
+        grid.dataset.grid = nextGrid;
+        grid.classList.toggle("grid-area--compact", nextGrid === "6");
+        buttons.forEach((item) => {
+            item.classList.toggle("active-grid", item === button);
+        });
+
+        gsap.killTweensOf([grid, ...items]);
+        gsap.set(grid, {
+            height: currentHeight,
+            overflow: "hidden",
+        });
+
+        gsap.to(items, {
+            autoAlpha: 0,
+            y: 14,
+            duration: 0.18,
+            stagger: 0.018,
+            ease: "power2.out",
+            onComplete: () => {
+                grid.classList.toggle("laptopMd:grid-cols-4", nextGrid === "4");
+                grid.classList.toggle("laptopMd:grid-cols-6", nextGrid === "6");
+
+                requestAnimationFrame(() => {
+                    gsap.set(grid, { height: "auto" });
+                    const nextHeight = grid.offsetHeight;
+                    gsap.set(grid, { height: currentHeight });
+
+                    gsap
+                        .timeline({
+                            defaults: { ease: "power3.out" },
+                            onComplete: () => {
+                                delete grid.dataset.animating;
+                                gsap.set(grid, { clearProps: "height,overflow" });
+                                gsap.set(items, { clearProps: "opacity,visibility,y" });
+                            },
+                        })
+                        .to(grid, { height: nextHeight, duration: 0.46 }, 0)
+                        .fromTo(
+                            items,
+                            { autoAlpha: 0, y: 18 },
+                            {
+                                autoAlpha: 1,
+                                y: 0,
+                                duration: 0.38,
+                                stagger: 0.028,
+                            },
+                            0.1,
+                        );
+                });
+            },
+        });
+    });
+}
+
 $(function () {
     initScrollControl();
     initUnderlineAnimations();
     initMobileMenu();
+    initFilterDropdowns();
     initHeroClipSlider();
     initSiteShare();
+    initProductColorSwitching();
+    initProductGridSwitching();
 
     const homeProperties = document.querySelector(".home-properties-swiper");
     if (homeProperties) {
